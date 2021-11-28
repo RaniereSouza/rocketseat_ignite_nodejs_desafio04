@@ -11,8 +11,6 @@ class User {
 
   constructor() {
     this.id = uuidV4();
-    this.created_at = new Date();
-    this.updated_at = new Date();
     this.name = "";
     this.email = "";
     this.admin = false;
@@ -21,6 +19,14 @@ class User {
       set(target, name, value) {
         const setables = ["name", "email", "admin"];
         const instance = target;
+
+        if (
+          (String(name) === "created_at" || String(name) === "updated_at") &&
+          value instanceof Date
+        ) {
+          instance[name] = value;
+          return true;
+        }
 
         if (
           !setables.includes(String(name)) ||
