@@ -1,32 +1,21 @@
 import { v4 as uuidV4 } from "uuid";
 
 class User {
-  id: string;
-  created_at: Date;
-  updated_at: Date;
+  // not setable
+  id = uuidV4();
+  created_at = new Date();
+  updated_at = new Date();
 
-  name: string;
-  email: string;
-  admin: boolean;
+  // setable
+  name = "";
+  email = "";
+  admin = false;
 
   constructor() {
-    this.id = uuidV4();
-    this.name = "";
-    this.email = "";
-    this.admin = false;
-
     return new Proxy<User>(this, {
       set(target, name, value) {
         const setables = ["name", "email", "admin"];
         const instance = target;
-
-        if (
-          (String(name) === "created_at" || String(name) === "updated_at") &&
-          value instanceof Date
-        ) {
-          instance[name] = value;
-          return true;
-        }
 
         if (
           !setables.includes(String(name)) ||
