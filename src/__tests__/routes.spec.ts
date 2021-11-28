@@ -146,22 +146,6 @@ describe("[GET] /users", () => {
     expect(response.body.error).toBeTruthy();
   });
 
-  it("should not be able to a non admin user get list of all users", async () => {
-    const usersRepository = UsersRepository.getInstance();
-
-    const user = usersRepository.create({
-      name: String(Math.random()),
-      email: String(Math.random()),
-    });
-
-    const response = await request(app)
-      .get("/users")
-      .set("user_id", user.id)
-      .expect(400);
-
-    expect(response.body.error).toBeTruthy();
-  });
-
   it("should not be able to a non existing user get list of all users", async () => {
     const response = await request(app)
       .get("/users")
